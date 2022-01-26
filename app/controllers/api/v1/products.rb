@@ -27,7 +27,7 @@ module API
             requires :user_id, type: Integer
           end
           post do
-            error!('401 Unauthorized', 401) unless current_user.is_seller?
+            error!('401 Unauthorized', 401) if current_user.has_role?(:buyer)
 
             present Product.create!(
               name: params[:name],
@@ -40,7 +40,7 @@ module API
           desc 'Update a specific product'
           route_param :id do
             put do
-              error!('401 Unauthorized', 401) unless current_user.is_seller?
+              error!('401 Unauthorized', 401) if current_user.has_role?(:buyer)
 
               product = Product.find(params[:id])
               product.update(params)
@@ -50,7 +50,7 @@ module API
           desc 'Delete a specific product'
           route_param :id do
             delete do
-              error!('401 Unauthorized', 401) unless current_user.is_seller?
+              error!('401 Unauthorized', 401) if current_user.has_role?(:buyer)
               
               product = Product.find(params[:id])
               product.destroy

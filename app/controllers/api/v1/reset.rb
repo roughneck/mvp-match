@@ -9,6 +9,8 @@ module API
 
         desc "Resets user's deposit"
         put do
+          error!('Error: seller not allowed to reset', 401) if current_user.has_role?(:seller)
+
           current_user.deposit = 0
 
           present current_user.save

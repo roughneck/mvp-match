@@ -18,6 +18,7 @@ module API
           total_price = product.cost * amount
 
           error!('Error: not enough deposit', 401) if total_price > current_user.deposit
+          error!('Error: seller not allowed to buy', 401) if current_user.has_role?(:seller)
           
           current_user.deposit -= total_price
           current_user.save
