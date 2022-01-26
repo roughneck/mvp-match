@@ -12,7 +12,7 @@ module API
           requires :amount, type: Integer
         end
         put do
-          error!('Error', 401) unless [5, 10, 20, 50].include? params[:amount]
+          error!('Error: invalid deposit amount', 401) unless [5, 10, 20, 50].include? params[:amount]
           current_user.deposit += params[:amount]
 
           present current_user.save
