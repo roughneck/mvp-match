@@ -12,7 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def register_failed
-    render json: { message: "Sign up failed.", errors: resource.errors.full_messages }
+    render json: { message: "Sign up failed.", errors: resource.errors.full_messages }, status: 400
   end
 
   def sign_up_params
