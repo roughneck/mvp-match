@@ -8,6 +8,7 @@ module API
       mount API::V1::Products
       mount API::V1::Deposit
       mount API::V1::Buy
+      mount API::V1::Reset
     end
   end
 end
