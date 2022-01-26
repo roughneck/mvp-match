@@ -8,6 +8,6 @@ class User < ApplicationRecord
 
   # NOTE: Would have used Pundit if this was a real project but due to time limitations, I'm using this simple approach
   def role?(role)
-    self.role == role
+    self.role.to_sym == role
   end
 end
