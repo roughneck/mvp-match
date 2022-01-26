@@ -9,7 +9,7 @@ describe API::Base, type: :request do
 
     describe 'GET /api/products' do
       before do
-        get '/api/v1/products', headers: { 'Authorization': response.headers['Authorization'] }
+        get '/api/v1/products', headers: { Authorization: response.headers['Authorization'] }
       end
 
       it 'returns 200' do
@@ -22,8 +22,8 @@ describe API::Base, type: :request do
     end
 
     describe 'GET /api/product/:id' do
-      before do        
-        get "/api/v1/products/#{product.id}", headers: { 'Authorization': response.headers['Authorization'] }
+      before do
+        get "/api/v1/products/#{product.id}", headers: { Authorization: response.headers['Authorization'] }
       end
 
       it 'returns a product by id' do
@@ -39,14 +39,14 @@ describe API::Base, type: :request do
       let(:user) { FactoryBot.create(:user, role: 'seller') }
 
       describe 'POST /api/product' do
-        before do        
+        before do
           post '/api/v1/products',
-            params: {
-              name: "Product 10",
-              cost: 15,
-              amount_available: 5,
-              user_id: user.id
-            }, headers: { 'Authorization': response.headers['Authorization'] }
+               params: {
+                 name: 'Product 10',
+                 cost: 15,
+                 amount_available: 5,
+                 user_id: user.id
+               }, headers: { Authorization: response.headers['Authorization'] }
         end
 
         it 'returns 201' do
@@ -55,8 +55,8 @@ describe API::Base, type: :request do
       end
 
       describe 'PUT /api/product/:id' do
-        before do        
-          put "/api/v1/products/#{product.id}", headers: { 'Authorization': response.headers['Authorization'] }
+        before do
+          put "/api/v1/products/#{product.id}", headers: { Authorization: response.headers['Authorization'] }
         end
 
         it 'returns 200' do
@@ -65,8 +65,8 @@ describe API::Base, type: :request do
       end
 
       describe 'DELETE /api/product/:id' do
-        before do        
-          delete "/api/v1/products/#{product.id}", headers: { 'Authorization': response.headers['Authorization'] }
+        before do
+          delete "/api/v1/products/#{product.id}", headers: { Authorization: response.headers['Authorization'] }
         end
 
         it 'returns 200' do
@@ -77,14 +77,14 @@ describe API::Base, type: :request do
 
     context 'when user is buyer' do
       describe 'POST /api/product' do
-        before do        
+        before do
           post '/api/v1/products',
-            params: {
-              name: "Product 10",
-              cost: 15,
-              amount_available: 5,
-              user_id: user.id
-            }, headers: { 'Authorization': response.headers['Authorization'] }
+               params: {
+                 name: 'Product 10',
+                 cost: 15,
+                 amount_available: 5,
+                 user_id: user.id
+               }, headers: { Authorization: response.headers['Authorization'] }
         end
 
         it 'returns 401' do
@@ -93,8 +93,8 @@ describe API::Base, type: :request do
       end
 
       describe 'PUT /api/product/:id' do
-        before do        
-          put "/api/v1/products/#{product.id}", headers: { 'Authorization': response.headers['Authorization'] }
+        before do
+          put "/api/v1/products/#{product.id}", headers: { Authorization: response.headers['Authorization'] }
         end
 
         it 'returns 401' do
@@ -103,8 +103,8 @@ describe API::Base, type: :request do
       end
 
       describe 'DELETE /api/product/:id' do
-        before do        
-          delete "/api/v1/products/#{product.id}", headers: { 'Authorization': response.headers['Authorization'] }
+        before do
+          delete "/api/v1/products/#{product.id}", headers: { Authorization: response.headers['Authorization'] }
         end
 
         it 'returns 401' do

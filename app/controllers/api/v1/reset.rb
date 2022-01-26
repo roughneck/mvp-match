@@ -6,10 +6,9 @@ module API
       prefix :api
 
       resource :reset do
-
         desc "Resets user's deposit"
         put do
-          error!('Error: seller not allowed to reset', 401) if current_user.has_role?(:seller)
+          error!('Error: seller not allowed to reset', 401) if current_user.role?(:seller)
 
           current_user.deposit = 0
 

@@ -22,5 +22,4 @@ describe Users::SessionsController, type: :request do
       expect(response.headers['Authorization']).to be_present
     end
   end
-
 end

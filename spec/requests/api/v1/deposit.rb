@@ -10,11 +10,11 @@ describe API::Base, type: :request do
       let(:user) { FactoryBot.create(:user, role: 'seller') }
 
       describe 'POST /api/v1/deposit' do
-        before do        
+        before do
           put '/api/v1/deposit',
-            params: {
-              amount: amount
-            }, headers: { 'Authorization': response.headers['Authorization'] }
+              params: {
+                amount: amount
+              }, headers: { Authorization: response.headers['Authorization'] }
         end
 
         context 'when depositing a valid amount' do
@@ -33,7 +33,7 @@ describe API::Base, type: :request do
 
         context 'when depositing an invalid amount' do
           let(:amount) { 3 }
-          
+
           it 'returns 401' do
             expect(response.status).to eq(401)
           end
@@ -49,11 +49,11 @@ describe API::Base, type: :request do
 
     context 'when user is buyer' do
       describe 'POST /api/v1/deposit' do
-        before do        
+        before do
           put '/api/v1/deposit',
-            params: {
-              amount: amount
-            }, headers: { 'Authorization': response.headers['Authorization'] }
+              params: {
+                amount: amount
+              }, headers: { Authorization: response.headers['Authorization'] }
         end
 
         context 'when depositing a valid amount' do
@@ -72,7 +72,7 @@ describe API::Base, type: :request do
 
         context 'when depositing an invalid amount' do
           let(:amount) { 3 }
-          
+
           it 'returns 401' do
             expect(response.status).to eq(401)
           end

@@ -6,14 +6,13 @@ module API
       prefix :api
 
       resource :deposit do
-
         desc 'Deposits an amount'
         params do
           requires :amount, type: Integer
         end
         put do
           error!('Error: invalid deposit amount', 401) unless [5, 10, 20, 50].include? params[:amount]
-          error!('Error: seller not allowed to deposit', 401) if current_user.has_role?(:seller)
+          error!('Error: seller not allowed to deposit', 401) if current_user.role?(:seller)
 
           current_user.deposit += params[:amount]
 

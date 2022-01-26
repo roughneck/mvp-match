@@ -46,5 +46,4 @@ describe Users::RegistrationsController, type: :request do
       expect(response.status).to eq(400)
     end
   end
-
 end

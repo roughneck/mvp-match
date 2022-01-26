@@ -10,8 +10,8 @@ describe API::Base, type: :request do
       let(:user) { FactoryBot.create(:user, deposit: 10, role: 'seller') }
 
       describe 'POST /api/v1/reset' do
-        before do        
-          put '/api/v1/reset', headers: { 'Authorization': response.headers['Authorization'] }
+        before do
+          put '/api/v1/reset', headers: { Authorization: response.headers['Authorization'] }
         end
 
         context 'when depositing a valid amount' do
@@ -30,8 +30,8 @@ describe API::Base, type: :request do
 
     context 'when user is buyer' do
       describe 'POST /api/v1/reset' do
-        before do        
-          put '/api/v1/reset', headers: { 'Authorization': response.headers['Authorization'] }
+        before do
+          put '/api/v1/reset', headers: { Authorization: response.headers['Authorization'] }
         end
 
         context 'when depositing a valid amount' do

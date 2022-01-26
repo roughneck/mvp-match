@@ -11,22 +11,22 @@ describe API::Base, type: :request do
       let(:user) { FactoryBot.create(:user, role: 'seller', deposit: 15) }
 
       describe 'POST /api/v1/buy' do
-        before do        
+        before do
           post '/api/v1/buy',
-            params: {
-              product_id: product.id,
-              amount: amount
-            }, headers: { 'Authorization': response.headers['Authorization'] }
+               params: {
+                 product_id: product.id,
+                 amount: amount
+               }, headers: { Authorization: response.headers['Authorization'] }
         end
 
         context 'when depositing a valid amount' do
           let(:amount) { 1 }
-          let(:expected_result) {
+          let(:expected_result) do
             {
               product: product.to_json,
               change: { 5 => 0, 10 => 1, 20 => 0, 50 => 0, 100 => 0 }
             }
-          }
+          end
 
           it 'returns 201' do
             expect(response.status).to eq(201)
@@ -39,7 +39,7 @@ describe API::Base, type: :request do
 
         context 'when depositing an invalid amount' do
           let(:amount) { 10 }
-          
+
           it 'returns 401' do
             expect(response.status).to eq(401)
           end
@@ -55,12 +55,12 @@ describe API::Base, type: :request do
 
     context 'when user is buyer' do
       describe 'POST /api/deposit' do
-        before do        
+        before do
           post '/api/v1/buy',
-            params: {
-              product_id: product.id,
-              amount: amount
-            }, headers: { 'Authorization': response.headers['Authorization'] }
+               params: {
+                 product_id: product.id,
+                 amount: amount
+               }, headers: { Authorization: response.headers['Authorization'] }
         end
 
         context 'when depositing a valid amount' do
@@ -79,7 +79,7 @@ describe API::Base, type: :request do
 
         context 'when depositing an invalid amount' do
           let(:amount) { 10 }
-          
+
           it 'returns 401' do
             expect(response.status).to eq(401)
           end
