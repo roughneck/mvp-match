@@ -4,6 +4,7 @@ module API
         version 'v1', using: :path
         format :json
         prefix :api
+
         resource :products do
 
           desc 'Return all products'
