@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe API::Base do
+describe API::Base, type: :request do
   let(:user) { FactoryBot.create(:user) }
   let!(:product) { FactoryBot.create(:product) }
 
@@ -35,39 +35,81 @@ describe API::Base do
       end
     end
 
-    describe 'POST /api/product/:id' do
-      before do        
-        post '/api/v1/products',
-          params: {
-            name: "Product 10",
-            cost: 15,
-            amount_available: 5,
-            user_id: user.id
-          }, headers: { 'Authorization': response.headers['Authorization'] }
+    context 'when user is seller' do
+      let(:user) { FactoryBot.create(:user, role: 'seller') }
+
+      describe 'POST /api/product' do
+        before do        
+          post '/api/v1/products',
+            params: {
+              name: "Product 10",
+              cost: 15,
+              amount_available: 5,
+              user_id: user.id
+            }, headers: { 'Authorization': response.headers['Authorization'] }
+        end
+
+        it 'returns 201' do
+          expect(response.status).to eq(201)
+        end
       end
 
-      it 'returns 201' do
-        expect(response.status).to eq(201)
+      describe 'PUT /api/product/:id' do
+        before do        
+          put "/api/v1/products/#{product.id}", headers: { 'Authorization': response.headers['Authorization'] }
+        end
+
+        it 'returns 200' do
+          expect(response.status).to eq(200)
+        end
+      end
+
+      describe 'DELETE /api/product/:id' do
+        before do        
+          delete "/api/v1/products/#{product.id}", headers: { 'Authorization': response.headers['Authorization'] }
+        end
+
+        it 'returns 200' do
+          expect(response.status).to eq(200)
+        end
       end
     end
 
-    describe 'PUT /api/product/:id' do
-      before do        
-        put "/api/v1/products/#{product.id}", headers: { 'Authorization': response.headers['Authorization'] }
+    context 'when user is buyer' do
+      describe 'POST /api/product' do
+        before do        
+          post '/api/v1/products',
+            params: {
+              name: "Product 10",
+              cost: 15,
+              amount_available: 5,
+              user_id: user.id
+            }, headers: { 'Authorization': response.headers['Authorization'] }
+        end
+
+        it 'returns 401' do
+          expect(response.status).to eq(401)
+        end
       end
 
-      it 'returns 200' do
-        expect(response.status).to eq(200)
-      end
-    end
+      describe 'PUT /api/product/:id' do
+        before do        
+          put "/api/v1/products/#{product.id}", headers: { 'Authorization': response.headers['Authorization'] }
+        end
 
-    describe 'DELETE /api/product/:id' do
-      before do        
-        delete "/api/v1/products/#{product.id}", headers: { 'Authorization': response.headers['Authorization'] }
+        it 'returns 401' do
+          expect(response.status).to eq(401)
+        end
       end
 
-      it 'returns 200' do
-        expect(response.status).to eq(200)
+      describe 'DELETE /api/product/:id' do
+        before do        
+          delete "/api/v1/products/#{product.id}", headers: { 'Authorization': response.headers['Authorization'] }
+        end
+
+        it 'returns 401' do
+          expect(response.status).to eq(401)
+        end
       end
     end
   end
@@ -89,7 +131,7 @@ describe API::Base do
       end
     end
 
-    describe 'POST /api/product/:id' do
+    describe 'POST /api/product' do
       it 'returns 401' do
         post '/api/v1/products'
 

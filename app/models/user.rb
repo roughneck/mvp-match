@@ -5,4 +5,8 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
   validates :role, presence: true, inclusion: { in: %w(buyer seller) }
+
+  def is_seller?
+    role == 'seller'
+  end
 end
