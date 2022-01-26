@@ -9,6 +9,7 @@ describe API::Base, type: :request do
 
     context 'when user is seller' do
       let(:user) { FactoryBot.create(:user, role: 'seller', deposit: 15) }
+      let(:amount) { 1 }
 
       describe 'POST /api/v1/buy' do
         before do
@@ -19,36 +20,8 @@ describe API::Base, type: :request do
                }, headers: { Authorization: response.headers['Authorization'] }
         end
 
-        context 'when depositing a valid amount' do
-          let(:amount) { 1 }
-          let(:expected_result) do
-            {
-              product: product.to_json,
-              change: { 5 => 0, 10 => 1, 20 => 0, 50 => 0, 100 => 0 }
-            }
-          end
-
-          it 'returns 201' do
-            expect(response.status).to eq(201)
-          end
-
-          it 'returns correct result' do
-            expect(response.body).to eq expected_result.to_json
-          end
-        end
-
-        context 'when depositing an invalid amount' do
-          let(:amount) { 10 }
-
-          it 'returns 401' do
-            expect(response.status).to eq(401)
-          end
-
-          it 'increases deposit of user' do
-            user.reload
-
-            expect(user.deposit).to eq(15)
-          end
+        it 'returns 401' do
+          expect(response.status).to eq(401)
         end
       end
     end

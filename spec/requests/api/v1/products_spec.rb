@@ -36,7 +36,9 @@ describe API::Base, type: :request do
     end
 
     context 'when user is seller' do
-      let(:user) { FactoryBot.create(:user, role: 'seller') }
+      let(:seller_user) { FactoryBot.create(:user, role: 'seller') }
+
+      before { login_with_api(seller_user) }
 
       describe 'POST /api/product' do
         before do
@@ -45,7 +47,7 @@ describe API::Base, type: :request do
                  name: 'Product 10',
                  cost: 15,
                  amount_available: 5,
-                 user_id: user.id
+                 user_id: seller_user.id
                }, headers: { Authorization: response.headers['Authorization'] }
         end
 

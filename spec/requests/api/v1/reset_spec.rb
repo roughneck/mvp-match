@@ -14,16 +14,8 @@ describe API::Base, type: :request do
           put '/api/v1/reset', headers: { Authorization: response.headers['Authorization'] }
         end
 
-        context 'when depositing a valid amount' do
-          it 'returns 200' do
-            expect(response.status).to eq(200)
-          end
-
-          it 'increases deposit of user' do
-            user.reload
-
-            expect(user.deposit).to eq(0)
-          end
+        it 'returns 401' do
+          expect(response.status).to eq(401)
         end
       end
     end
