@@ -6,6 +6,7 @@ module API
       before { user_authenticated? }
       
       mount API::V1::Products
+      mount API::V1::Deposit
     end
   end
 end
