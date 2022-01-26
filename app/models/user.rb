@@ -3,5 +3,6 @@ class User < ApplicationRecord
          :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
 
   validates :username, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: true
   validates :role, presence: true, inclusion: { in: %w(buyer seller) }
 end
