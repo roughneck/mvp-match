@@ -26,7 +26,7 @@ module API
           requires :user_id, type: Integer
         end
         post do
-          error!('401 Unauthorized', 401) if current_user.role?(:buyer)
+          error!('Error: buyers are not allowed to create products', 401) if current_user.role?(:buyer)
 
           present Product.create!(
             name: params[:name],
@@ -39,9 +39,10 @@ module API
         desc 'Update a specific product'
         route_param :id do
           put do
-            error!('401 Unauthorized', 401) if current_user.role?(:buyer)
+            error!('Error: buyers are not allowed to update products', 401) if current_user.role?(:buyer)
 
             product = Product.find(params[:id])
+            error!('Error: you are not allowed to update this product', 401) if product.user != current_user            
             product.update(params)
           end
         end
@@ -49,9 +50,10 @@ module API
         desc 'Delete a specific product'
         route_param :id do
           delete do
-            error!('401 Unauthorized', 401) if current_user.role?(:buyer)
+            error!('Error: buyers are not allowed to delete products', 401) if current_user.role?(:buyer)
 
             product = Product.find(params[:id])
+            error!('Error: you are not allowed to delete this product', 401) if product.user != current_user
             product.destroy
           end
         end
