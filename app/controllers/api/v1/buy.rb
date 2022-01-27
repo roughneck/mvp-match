@@ -17,10 +17,14 @@ module API
           total_price = product.cost * amount
 
           error!('Error: not enough deposit', 400) if total_price > current_user.deposit
+          error!('Error: not enough amount available', 400) if amount > product.amount_available
           error!('Error: seller not allowed to buy', 401) if current_user.role?(:seller)
 
           current_user.deposit -= total_price
           current_user.save
+
+          product.amount_available -= amount
+          product.save
 
           result = {
             product: product.to_json,

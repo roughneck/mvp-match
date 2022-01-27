@@ -37,11 +37,18 @@ module API
 
         desc 'Update a specific product'
         route_param :id do
+          params do
+            optional :name, type: String
+            optional :cost, type: Integer
+            optional :amount_available, type: Integer
+          end
           put do
             error!('Error: buyers are not allowed to update products', 401) if current_user.role?(:buyer)
 
             product = Product.find(params[:id])
-            error!('Error: you are not allowed to update this product', 401) if product.user != current_user            
+
+            error!('Error: you are not allowed to update this product', 401) if product.user != current_user
+
             product.update(params)
           end
         end
@@ -52,7 +59,9 @@ module API
             error!('Error: buyers are not allowed to delete products', 401) if current_user.role?(:buyer)
 
             product = Product.find(params[:id])
+
             error!('Error: you are not allowed to delete this product', 401) if product.user != current_user
+
             product.destroy
           end
         end

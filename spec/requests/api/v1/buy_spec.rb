@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe API::Base, type: :request do
-  let(:user) { FactoryBot.create(:user, deposit: 15) }
-  let(:product) { FactoryBot.create(:product, cost: 5) }
+  let(:user) { FactoryBot.create(:user, deposit: 20) }
+  let(:product) { FactoryBot.create(:product, cost: 5, amount_available: 2) }
 
   context 'when logged in' do
     before { login_with_api(user) }
@@ -36,7 +36,7 @@ describe API::Base, type: :request do
                }, headers: { Authorization: response.headers['Authorization'] }
         end
 
-        context 'when buying a valid amount' do
+        context 'when amount is valid' do
           let(:amount) { 1 }
 
           it 'returns 201' do
@@ -46,11 +46,25 @@ describe API::Base, type: :request do
           it 'increases deposit of user' do
             user.reload
 
-            expect(user.deposit).to eq(10)
+            expect(user.deposit).to eq(15)
           end
         end
 
-        context 'when buying an invalid amount' do
+        context 'when amount exceeds amount_available' do
+          let(:amount) { 3 }
+
+          it 'returns 400' do
+            expect(response.status).to eq(400)
+          end
+
+          it 'increases deposit of user' do
+            user.reload
+
+            expect(user.deposit).to eq(20)
+          end
+        end
+
+        context 'when amount exceeds deposit' do
           let(:amount) { 10 }
 
           it 'returns 400' do
@@ -60,7 +74,7 @@ describe API::Base, type: :request do
           it 'increases deposit of user' do
             user.reload
 
-            expect(user.deposit).to eq(15)
+            expect(user.deposit).to eq(20)
           end
         end
       end

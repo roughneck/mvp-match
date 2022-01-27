@@ -45,8 +45,7 @@ describe API::Base, type: :request do
                params: {
                  name: 'Product 10',
                  cost: 15,
-                 amount_available: 5,
-                 user_id: seller_user.id
+                 amount_available: 5
                }, headers: { Authorization: response.headers['Authorization'] }
         end
 
@@ -107,8 +106,7 @@ describe API::Base, type: :request do
                params: {
                  name: 'Product 10',
                  cost: 15,
-                 amount_available: 5,
-                 user_id: user.id
+                 amount_available: 5
                }, headers: { Authorization: response.headers['Authorization'] }
         end
 

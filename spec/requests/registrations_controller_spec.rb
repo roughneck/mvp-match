@@ -13,7 +13,7 @@ describe Users::RegistrationsController, type: :request do
           password: password,
           username: user.username,
           role: user.role
-        }, as: :json
+        }
       }
     end
 
@@ -38,7 +38,7 @@ describe Users::RegistrationsController, type: :request do
           password: password,
           username: existing_user.username,
           role: existing_user.role
-        }, as: :json
+        }
       }
     end
 

@@ -10,7 +10,7 @@ describe Users::SessionsController, type: :request do
         user: {
           email: existing_user.email,
           password: password
-        }, as: :json
+        }
       }
     end
 
