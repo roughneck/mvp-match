@@ -36,7 +36,7 @@ describe API::Base, type: :request do
                }, headers: { Authorization: response.headers['Authorization'] }
         end
 
-        context 'when depositing a valid amount' do
+        context 'when buying a valid amount' do
           let(:amount) { 1 }
 
           it 'returns 201' do
@@ -50,11 +50,11 @@ describe API::Base, type: :request do
           end
         end
 
-        context 'when depositing an invalid amount' do
+        context 'when buying an invalid amount' do
           let(:amount) { 10 }
 
-          it 'returns 401' do
-            expect(response.status).to eq(401)
+          it 'returns 400' do
+            expect(response.status).to eq(400)
           end
 
           it 'increases deposit of user' do

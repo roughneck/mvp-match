@@ -2,7 +2,8 @@ require 'rails_helper'
 
 describe API::Base, type: :request do
   let(:user) { FactoryBot.create(:user) }
-  let!(:product) { FactoryBot.create(:product) }
+  let(:seller_user) { FactoryBot.create(:user, role: 'seller') }
+  let!(:product) { FactoryBot.create(:product, user: seller_user) }
 
   context 'when logged in' do
     before { login_with_api(user) }
@@ -36,8 +37,6 @@ describe API::Base, type: :request do
     end
 
     context 'when user is seller' do
-      let(:seller_user) { FactoryBot.create(:user, role: 'seller') }
-
       before { login_with_api(seller_user) }
 
       describe 'POST /api/product' do
@@ -73,6 +72,30 @@ describe API::Base, type: :request do
 
         it 'returns 200' do
           expect(response.status).to eq(200)
+        end
+      end
+
+      context "when trying to change another user's product" do
+        let(:another_product) { FactoryBot.create(:product) }
+
+        describe 'PUT /api/product/:id' do
+          before do
+            put "/api/v1/products/#{another_product.id}", headers: { Authorization: response.headers['Authorization'] }
+          end
+
+          it 'returns 401' do
+            expect(response.status).to eq(401)
+          end
+        end
+
+        describe 'DELETE /api/product/:id' do
+          before do
+            delete "/api/v1/products/#{another_product.id}", headers: { Authorization: response.headers['Authorization'] }
+          end
+
+          it 'returns 401' do
+            expect(response.status).to eq(401)
+          end
         end
       end
     end

@@ -50,8 +50,8 @@ describe API::Base, type: :request do
         context 'when depositing an invalid amount' do
           let(:amount) { 3 }
 
-          it 'returns 401' do
-            expect(response.status).to eq(401)
+          it 'returns 400' do
+            expect(response.status).to eq(400)
           end
 
           it 'increases deposit of user' do
