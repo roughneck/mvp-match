@@ -33,6 +33,8 @@ describe API::Base, type: :request do
       end
 
       describe 'buys product' do
+        let(:product_result) { JSON.parse(json.fetch('product')) }
+
         before do
           post '/api/v1/buy',
                params: {
@@ -42,7 +44,11 @@ describe API::Base, type: :request do
         end
 
         it 'returns product' do
-          expect(json.fetch('product')).to eq product.to_json
+          product.reload
+
+          expect(product_result.fetch('amount_available')).to eq product.amount_available
+          expect(product_result.fetch('cost')).to eq product.cost
+          expect(product_result.fetch('name')).to eq product.name
         end
 
         it 'returns change' do
