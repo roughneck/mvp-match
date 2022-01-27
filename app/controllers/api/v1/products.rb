@@ -23,7 +23,6 @@ module API
           requires :name, type: String
           requires :cost, type: Integer
           requires :amount_available, type: Integer
-          requires :user_id, type: Integer
         end
         post do
           error!('Error: buyers are not allowed to create products', 401) if current_user.role?(:buyer)
@@ -32,7 +31,7 @@ module API
             name: params[:name],
             cost: params[:cost],
             amount_available: params[:amount_available],
-            user_id: params[:user_id]
+            user_id: current_user.id
           )
         end
 
